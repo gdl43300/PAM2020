@@ -1,6 +1,10 @@
 package fr.isima.gudaniel1.pam2020;
 
-public class Comic {
+import java.io.Serializable;
+
+public class Comic implements Serializable {
+
+    private  static  final  long serialVersionUID =  1350092881346723535L;
 
     public int num;
     public String day;

@@ -1,6 +1,10 @@
 package fr.isima.gudaniel1.pam2020;
 
+import android.content.Intent;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,31 +15,47 @@ import java.util.List;
 
 class ComicsAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter {
     List<Comic> list;
+    ShowDetailCallback showDetailCallback;
 
 
-    public ComicsAdapter() {
+    public ComicsAdapter(ShowDetailCallback sdc) {
         list = new ArrayList<Comic>();
+        showDetailCallback = sdc;
     }
 
     public static class ComicViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView textView;
-        public ComicViewHolder(TextView v) {
+
+        public Button button;
+        public ComicViewHolder(Button v) {
             super(v);
-            textView = v;
+            button = v;
         }
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return null;
+        Button t = (Button) LayoutInflater.from(parent.getContext()).inflate(R.layout.cell, parent, false);
+        ComicViewHolder c = new ComicViewHolder(t);
+        return c;
 
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        ComicViewHolder comicHolder = (ComicViewHolder) holder;
+        Comic c = list.get(position);
+        StringBuilder sb = new StringBuilder();
+        sb.append(c.num);
+        sb.append(" : ");
+        sb.append(c.title);
+        comicHolder.button.setText(sb.toString());
+        comicHolder.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDetailCallback.showDetail(c);
+            }
+        });
     }
 
     @Override
@@ -46,5 +66,8 @@ class ComicsAdapter extends androidx.recyclerview.widget.RecyclerView.Adapter {
 
     public void setList(List<Comic> list) {
         this.list = list;
+        notifyDataSetChanged();
     }
+
+
 }

@@ -8,6 +8,6 @@ import retrofit2.http.Path;
 
 public interface XKCDApi {
 
-    @GET("bins/16fnc2")
+    @GET("xkcd.json")
     Call<List<Comic>> getLastComic();
 }
